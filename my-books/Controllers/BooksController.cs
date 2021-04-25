@@ -41,5 +41,12 @@ namespace my_books.Controllers
         {
             return Ok(_booksService.GetBookByID(id));
         }
+
+        [HttpPut ("update-book-by-id/{id}")]
+        public IActionResult UpdateBookByID(int id, [FromBody] BookVM book)
+        {
+            var updatedBook = _booksService.UpdateBookById(id, book);
+            return Ok(updatedBook);
+        }
     }
 }
