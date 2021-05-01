@@ -55,7 +55,21 @@ namespace my_books.Data.Services
 
         public List<Book> GetAllBooks() => _context.Books.ToList();
 
-        public Book GetBookByID(int bookID) => _context.Books.FirstOrDefault(x => x.Id == bookID);
+        public BookWithAuthorsVM GetBookByID(int bookID) {
+            var _booKWithAuthors = _context.Books.Where(n=>n.Id==bookID).Select(book => new BookWithAuthorsVM()
+            {
+                Title = book.Title,
+                Description = book.Description,
+                IsRead = book.IsRead,
+                DateRead = book.IsRead ? book.DateRead.Value : null,
+                Rate = book.IsRead ? book.Rate.Value : null,
+                Genre = book.Genre,
+                CoverUrl = book.CoverUrl,
+                PublisherName = book.Publisher.Name,               
+                AuthorNames=book.Book_Authors.Select(n=> n.Author.FullName).ToList()
+            }).FirstOrDefault();
+            return _booKWithAuthors;
+        }
 
         public Book UpdateBookById(int bookID, BookVM book)
         {
