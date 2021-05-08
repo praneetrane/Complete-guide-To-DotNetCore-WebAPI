@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using my_books.Data.Models;
 using my_books.Data.Services;
 using my_books.Data.ViewModels;
 using my_books.Exceptions;
@@ -40,7 +41,7 @@ namespace my_books.Controllers
             }
             
         }
-
+        /*
         [HttpGet("get-publisher-by-id/{id}")]
 
         public IActionResult GetPublisherById(int id)
@@ -56,6 +57,25 @@ namespace my_books.Controllers
                 return NotFound();
             }
 
+        }
+        */
+
+        //----Commented above action to add below method with specific return type.
+        [HttpGet("get-publisher-by-id/{id}")]
+
+        public Publisher GetPublisherById(int id)
+        {
+           // throw new Exception("This is an exception that would be handled by middleware");
+            var _response = _publishersService.GetPublisherById(id);
+            if (_response != null)
+            {
+                // return Ok(_response);
+                return _response;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         [HttpGet("get-publisher-books-with-authors/{id}")]
